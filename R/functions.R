@@ -1,16 +1,16 @@
-open.irga <- function(file, acao = FALSE) {
+open_irga_file <- function(file, acao = FALSE) {
   x <- data.table::fread(file, skip = 10)
   y <- x[x$ACAO != "", ]
   y <- y[y$YYYYMMDD != "in", ]
-  col_index <- seq(1,length(colnames(y)))
-  col_index <- col_index[duplicated(colnames(y))]
-  y <- dplyr::select(y, ,-all_of(col_index))
-  write.csv(unique(y), "dummy.csv")
+  col_index <- base::seq(1, base::length(base::colnames(y)))
+  col_index <- col_index[base::duplicated(base::colnames(y))]
+  y <- dplyr::select(y, -dplyr::all_of(col_index))
+  utils::write.csv(base::unique(y), "dummy.csv")
   y <- data.table::fread("dummy.csv")
-  file.remove("dummy.csv")
+  base::file.remove("dummy.csv")
   y <- y[, -1]
   if (acao) {
-    print(table(y$ACAO))
+    base::print(base::table(y$ACAO))
   }
   return(y)
 }
